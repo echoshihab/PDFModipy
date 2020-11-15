@@ -1,11 +1,13 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
+from tkinter import filedialog
 
 
-class PDfWorker:
-    def __init__(self, file_path):
-        self.file_path = file_path
+class PDFWorker:
+    def __init__(self):
+        self.file_path = ""
 
     def split_pdf(self, start_page, end_page):
+        print("working")
         pdf = PdfFileReader(self.file_path)
         pdf_writer = PdfFileWriter()
         for page in range(start_page-1, end_page):
@@ -13,9 +15,14 @@ class PDfWorker:
 
         with open("outFile.pdf", 'wb') as output:
             pdf_writer.write(output)
+            print("Created!")
 
-    def merge_pdf():
+    def merge_pdf(self):
         print("merge")
 
-    def encrypt_pdf():
+    def encrypt_pdf(self):
         print("encrypt")
+
+    def select_pdf(self):
+        self.file_path = filedialog.askopenfilename(
+            initialdir="/", title="Select a File", filetypes=[("pdf files", "*.pdf")])
