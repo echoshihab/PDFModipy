@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 
 class UI:
@@ -7,14 +8,28 @@ class UI:
     def __init__(self):
         self.root = Tk()
         self.root.title = ("PDFModipy")
-        self.root.geometry = ("200x150")
-        self.select_btn = Button(self.root, text="Select File")
-        self.start_page = Entry(self.root, width=10)
-        self.start_page_label = Label(self.root, text="Start Page")
-        self.end_page_label = Label(self.root, text="End Page")
-        self.file_path_label = Label(self.root)
-        self.end_page = Entry(self.root, width=10)
+        self.root.geometry = ("500x280")
 
-        self.split_btn = Button(self.root, text="Split")
-        self.merge_btn = Button(self.root, text="Merge")
-        self.encrypt_btn = Button(self.root, text="Encrypt")
+        self.tab_parent = ttk.Notebook(self.root)
+        self.split_tab = ttk.Frame(self.tab_parent)
+        self.merge_tab = ttk.Frame(self.tab_parent)
+        self.encrypt_tab = ttk.Frame(self.tab_parent)
+        self._add_tabs()
+
+        # Split Tab items
+        self.select_btn = Button(self.split_tab, text="Select File")
+        self.file_path_label = Label(self.split_tab)
+        self.start_page = Entry(self.split_tab, width=10)
+        self.start_page_label = Label(self.split_tab, text="Start Page")
+        self.end_page_label = Label(self.split_tab, text="End Page")
+        self.end_page = Entry(self.split_tab, width=10)
+        self.split_btn = Button(self.split_tab, text="Split")
+
+        # Merge Tab Items
+        self.merge_btn = Button(self.merge_tab, text="Merge")
+        self.encrypt_btn = Button(self.merge_tab, text="Encrypt")
+
+    def _add_tabs(self):
+        self.tab_parent.add(self.split_tab, text="Split PDF")
+        self.tab_parent.add(self.merge_tab, text="Merge PDF")
+        self.tab_parent.add(self.encrypt_tab, text="Encrypt PDF")
