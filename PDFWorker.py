@@ -7,7 +7,6 @@ class PDFWorker:
         self.file_path = ""
 
     def split_pdf(self, start_page, end_page):
-        print("working")
         pdf = PdfFileReader(self.file_path)
         pdf_writer = PdfFileWriter()
         for page in range(start_page-1, end_page):
@@ -15,7 +14,6 @@ class PDFWorker:
 
         with open("outFile.pdf", 'wb') as output:
             pdf_writer.write(output)
-            print("Created!")
 
     def merge_pdf(self):
         print("merge")
