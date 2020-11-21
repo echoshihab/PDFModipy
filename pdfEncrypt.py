@@ -2,24 +2,21 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 from tkinter import filedialog
 
 
-class PDFWorker:
+class PDFEncrypt:
+    """Overall class to manage logic for encrypting pdf"""
+
     def __init__(self):
         self.file_path = ""
 
-    def split_pdf(self, start_page, end_page):
+    def encrypt_pdf(self, password):
         pdf = PdfFileReader(self.file_path)
         pdf_writer = PdfFileWriter()
-        for page in range(start_page-1, end_page):
+        for page in range(pdf.numPages):
             pdf_writer.addPage(pdf.getPage(page))
+        pdf_writer.encrypt(password)
 
-        with open("outFile.pdf", 'wb') as output:
+        with open("encrpyted_file.pdf", 'wb') as output:
             pdf_writer.write(output)
-
-    def merge_pdf(self):
-        print("merge")
-
-    def encrypt_pdf(self):
-        print("encrypt")
 
     def select_pdf(self):
         self.file_path = filedialog.askopenfilename(
