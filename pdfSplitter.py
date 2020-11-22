@@ -9,7 +9,7 @@ class PDFSplitter:
     def __init__(self, UI):
         self.file_path = ""
 
-        # butons
+        # buttons
         self.select_btn = Button(
             UI.split_tab, text="Select File", command=self._get_file_path)
         self.split_btn = Button(UI.split_tab, text="Split")
@@ -37,7 +37,7 @@ class PDFSplitter:
         self.file_path = filedialog.askopenfilename(
             initialdir="/", title="Select a File", filetypes=[("pdf files", "*.pdf")])
 
-    def display_ui(self):
+    def display_UI(self):
         self.select_btn.grid(row=0, column=0)
         self.start_page_label.grid(row=3, sticky='W')
         self.start_page.grid(row=3, column=1, sticky='W')
