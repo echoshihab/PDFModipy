@@ -35,14 +35,33 @@ class PDFEncrypt:
         with open("encrpyted_file.pdf", 'wb') as output:
             pdf_writer.write(output)
 
+    def _is_valid_password(self):
+        password = self.encrypt_password.get()
+        confirm_password = self.confirm_password.get()
+        if(password == confirm_password):
+            return True
+        return False
+
+    # refactor disply info and danger text+ add validations to _is_valid_password() method
+
     def complete_encrypt_tasks(self):
-        self._encrypt_pdf("password")
-        self._display_info_text()
+        password = self._is_valid_password()
+        if(password):
+            self._encrypt_pdf(self.encrypt_password.get())
+            self._display_info_text()
+            return True
+        else:
+            self._display_error_text()
 
     def _display_info_text(self):
         self.info_text.grid(row=6, column=3)
         self.info_text.configure(
             text="Task Complete!", foreground="green")
+
+    def _display_error_text(self):
+        self.info_text.grid(row=6, column=3)
+        self.info_text.configure(
+            text="Passwords must match", foreground="red")
 
     def select_pdf(self):
         self.file_path = filedialog.askopenfilename(
@@ -61,9 +80,9 @@ class PDFEncrypt:
     def display_UI(self):
         self.select_btn.grid(row=0, column=0)
         self.encrypt_password_label.grid(
-            row=2, column=0, sticky='W')
+            row=2, column=0, sticky='E')
         self.encrypt_password.grid(row=2, column=1, sticky='W')
         self.confirm_password_label.grid(
-            row=3, column=0, sticky='W')
+            row=3, column=0, sticky='E')
         self.confirm_password.grid(row=3, column=1, sticky='W')
         self.encrypt_btn.grid(row=4, column=0)

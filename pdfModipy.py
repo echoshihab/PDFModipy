@@ -29,11 +29,12 @@ class PDFModipy:
 
     def _split(self):
         self.pdf_splitter.complete_split_tasks()
-        self._open_file_directory()
+        self._open_file_directory()  # have to prevent open file directory on errors
 
     def _encrypt(self):
-        self.pdf_encrypt.complete_encrypt_tasks()
-        self._open_file_directory()
+        success = self.pdf_encrypt.complete_encrypt_tasks()
+        if(success):
+            self._open_file_directory()
 
     def _open_file_directory(self):
         location = os.path.realpath(

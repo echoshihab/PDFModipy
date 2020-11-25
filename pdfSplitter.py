@@ -24,7 +24,7 @@ class PDFSplitter:
         self.start_page = Entry(UI.split_tab, width=10)
         self.end_page = Entry(UI.split_tab, width=10)
 
-    def split_pdf(self, start_page, end_page):
+    def _split_pdf(self, start_page, end_page):
         pdf = PdfFileReader(self.file_path)
         pdf_writer = PdfFileWriter()
         for page in range(start_page-1, end_page):
@@ -58,7 +58,7 @@ class PDFSplitter:
 
     def complete_split_tasks(self):
         """completes split pdf related tasks """
-        self.split_pdf(
+        self._split_pdf(
             int(self.start_page.get()), int(self.end_page.get()))  # need to validate input here
         self._clean_up_page_entry()
         self._display_info_texts()
