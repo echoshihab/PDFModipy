@@ -1,5 +1,6 @@
 from pdfSplitter import PDFSplitter
 from pdfEncrypt import PDFEncrypt
+from pdfMerger import PDFMerger
 from UI import UI
 import webbrowser
 import os
@@ -12,12 +13,14 @@ class PDFModipy:
         self.UI = UI()
         self.pdf_splitter = PDFSplitter(self.UI)
         self.pdf_encrypt = PDFEncrypt(self.UI)
+        self.pdf_merger = PDFMerger(self.UI)
         self.main_loop = self.UI.root.mainloop
 
     def display_UI(self):
         """Displays the UI"""
         self.pdf_splitter.display_UI()
         self.pdf_encrypt.display_UI()
+        self.pdf_merger.display_UI()
         self.UI.tab_parent.pack(fill='both', expand=1)
 
     def attach_logic(self):
@@ -26,6 +29,12 @@ class PDFModipy:
             command=self._split)
         self.pdf_encrypt.encrypt_btn.configure(
             command=self._encrypt)
+        self.pdf_merger.merge_btn.configure(
+            command=self._merge)
+
+    def _merge(self):
+        self.pdf_merger.complete_merge_tasks()
+        self._open_file_directory()
 
     def _split(self):
         self.pdf_splitter.complete_split_tasks()
