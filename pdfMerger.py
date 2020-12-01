@@ -10,12 +10,15 @@ class PDFMerger:
         self.file_paths = []
 
         self.merge_btn = Button(UI.merge_tab, text="Merge")
+        self.up_btn = Button(UI.merge_tab, text="Move Up")
+        self.down_btn = Button(UI.merge_tab, text="Move Down")
+
+        self.list_box = Listbox(UI.merge_tab)
 
         self.select_btn = Button(
             UI.merge_tab, text="Select File", command=self._get_file_paths)
 
         # labels
-        self.file_path_label = Label(UI.merge_tab)
         self.info_text = Label(UI.merge_tab, text="working...")
 
     def select_pdfs(self):
@@ -44,11 +47,17 @@ class PDFMerger:
 
     def display_UI(self):
         self.select_btn.grid(row=0, column=0)
-        self.merge_btn.grid(row=5, column=0)
+        self.list_box.grid(row=0, column=1)
+        self.up_btn.grid(row=0, column=5)
+        self.down_btn.grid(row=1, column=5)
+        self.merge_btn.grid(row=3, column=0)
 
     def _get_file_paths(self):
         """gets file path of pdf for splitting"""
         self.select_pdfs()
-        self.file_path_label.configure(
-            text=f'{len(self.file_paths)} Files')
-        self.file_path_label.grid(row=0, column=1)
+        for index, file in enumerate(self.file_paths):
+            self.list_box.insert(index, self._shorten_file_name(file))
+
+    def _shorten_file_name(self, file):
+        file_name = file.split('/')[-1]
+        return file_name if len(file_name) < 36 else file_name[:36] + "..."
