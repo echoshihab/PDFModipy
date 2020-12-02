@@ -10,7 +10,8 @@ class PDFMerger:
         self.file_paths = []
 
         self.merge_btn = Button(UI.merge_tab, text="Merge")
-        self.up_btn = Button(UI.merge_tab, text="Move Up")
+        self.up_btn = Button(UI.merge_tab, text="Move Up",
+                             command=self._move_up)
         self.down_btn = Button(UI.merge_tab, text="Move Down")
 
         self.list_box = Listbox(UI.merge_tab)
@@ -21,9 +22,9 @@ class PDFMerger:
         # labels
         self.info_text = Label(UI.merge_tab, text="working...")
 
-    def select_pdfs(self):
-        self.file_paths = filedialog.askopenfilenames(
-            initialdir="/", title="Select Files", filetypes=[("pdf files", "*.pdf")])
+    def _select_pdfs(self):
+        self.file_paths = list(filedialog.askopenfilenames(
+            initialdir="/", title="Select Files", filetypes=[("pdf files", "*.pdf")]))
 
     def _merge_pdfs(self):
         pdf_writer = PdfFileWriter()
@@ -54,9 +55,24 @@ class PDFMerger:
 
     def _get_file_paths(self):
         """gets file path of pdf for splitting"""
-        self.select_pdfs()
+        self._select_pdfs()
         for index, file in enumerate(self.file_paths):
             self.list_box.insert(index, self._shorten_file_name(file))
+
+    def _move_up(self):
+        selectedIndex = self.list_box.curselection()[0]
+        if(selectedIndex > 0):
+            # update list box
+            item = self.list_box.get(selectedIndex)
+            self.list_box.delete(selectedIndex)
+            self.list_box.insert(selectedIndex-1, item)
+            # Highlight selected item
+            self.list_box.select_clear(0, "end")
+            self.list_box.selection_set(selectedIndex-1)
+            self.list_box.activate(selectedIndex-1)
+            # update file path list
+            file_path = self.file_paths.pop(selectedIndex)
+            self.file_paths.insert(selectedIndex-1, file_path)
 
     def _shorten_file_name(self, file):
         file_name = file.split('/')[-1]
